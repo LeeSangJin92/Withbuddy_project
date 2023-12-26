@@ -1,8 +1,10 @@
 package com.lec.spring.withbuddy_project.config;
 
+import com.lec.spring.withbuddy_project.service.UserService;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler;
 
@@ -17,10 +19,13 @@ import java.util.List;
 
 public class CustomLoginSuccessHandler extends SavedRequestAwareAuthenticationSuccessHandler {
 
-    public CustomLoginSuccessHandler(String defaultTargetUrl){
+    private UserService userService;
+
+
+    public CustomLoginSuccessHandler(String defaultTargetUrl,UserService userService){
         // SavedRequestAwareAuthenticationSuccessHandler#setDefaultTargetUrl()
         // 로그인후 특별히 redirect 할 url 이 없는경우 기본적으로 redirect 할 url
-
+        this.userService=userService;
         setDefaultTargetUrl(defaultTargetUrl);
     }
 
@@ -45,7 +50,13 @@ public class CustomLoginSuccessHandler extends SavedRequestAwareAuthenticationSu
         System.out.println("로그인 시간: " + loginTime);
         request.getSession().setAttribute("loginTime", loginTime);
 
-
+        Long id = userDetails.getId();
+        boolean buddy = userService.findBuddy(id);
+        if (buddy == true) {
+            response.sendRedirect("/user/buddy");
+        }else {
+            response.sendRedirect("/home");
+        }
 
         // 로그인 직전 url 로 redirect  하기
         super.onAuthenticationSuccess(request, response, authentication);

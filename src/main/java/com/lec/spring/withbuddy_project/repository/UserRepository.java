@@ -10,9 +10,17 @@ import java.util.List;
 public interface UserRepository {
     int save(User user);
 
+    User findById(Long id);
+
     User findByUsername(String userId); // userId= username으로 유저의 정보를 찾음
 
-    User findById(Long id);
+    User findByEmail(String email);
+
+    int buddy(MypagePet mypagePet);
+
+    MypagePet findBuddy(Long id);
+
+    void update(User user);
 
     List<User> findAllUser();  // 모든 유저를 찾음
 
@@ -22,7 +30,4 @@ public interface UserRepository {
 
     BuddyDto findUserById(Long id,Long code);  // id를 통해 유저의 정보를 찾음
 
-    User findByEmail(String email);
-
-    int buddy(MypagePet mypagePet);
 }

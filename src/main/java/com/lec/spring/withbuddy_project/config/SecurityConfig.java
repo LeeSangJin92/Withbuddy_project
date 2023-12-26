@@ -1,6 +1,7 @@
 package com.lec.spring.withbuddy_project.config;
 
 import com.lec.spring.withbuddy_project.config.oauth.PrincipalOauth2UserService;
+import com.lec.spring.withbuddy_project.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -15,7 +16,8 @@ public class SecurityConfig {
     // Oauth Client
     @Autowired
     private PrincipalOauth2UserService principalOauth2UserService;
-
+    @Autowired
+    private UserService userService;
 
     // ↓ Security 를 동작시키지 않기.
 //    @Bean
@@ -36,7 +38,7 @@ public class SecurityConfig {
                         // ↓  URL로 들어오는 요청은 '인증'만 필요.
                         .requestMatchers("/").authenticated()
                         // ↓  URL로 들어오는 요청은 '인증' 뿐 아니라 ROLE_MEMBER 나 ROLE_ADMIN 권한을 갖고 있어야 한다. ('인가')
-                        .requestMatchers("/", "/home", "/user/mypage").hasAnyRole("유저", "권한")
+                        .requestMatchers("/", "/home", "/user/mypage","/user/mypagepet").hasAnyRole("유저", "권한")
                         // ↓ 그 밖의 다른 요청은 모두 permit!
                         .anyRequest().permitAll()
                 )
@@ -56,7 +58,7 @@ public class SecurityConfig {
 
                         // 로그인 성공직후 수행할코드
                         //.successHandler(AuthenticationSuccessHandler)  // 로그인 성공후 수행할 코드.
-                        .successHandler(new CustomLoginSuccessHandler("/home"))
+                        .successHandler(new CustomLoginSuccessHandler("/user/buddy",userService))
 
                         // 로그인 실패하면 수행할 코드
                         // .failureHandler(AuthenticationFailureHandler)

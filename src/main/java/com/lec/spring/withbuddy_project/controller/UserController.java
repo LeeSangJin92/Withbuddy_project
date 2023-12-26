@@ -12,13 +12,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.InitBinder;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.security.Principal;
+import java.util.Map;
 
 @Controller
 @RequestMapping("/user")
@@ -95,13 +94,35 @@ public class UserController {
 //        return "user/home";
 //    }
 
-    @PostMapping("/buddy")
-    public String join(@AuthenticationPrincipal PrincipalDetails principalDetails,MypagePet mypagePet) {
-        //        // 현재 로그인한 사용자의 아이디 가져오기
-
+    @PostMapping("/buddy") // 12/26 수정
+    public String join(
+            @AuthenticationPrincipal PrincipalDetails principalDetails,
+            MypagePet mypagePet,
+            User user,
+            @RequestParam Map<String, MultipartFile> buddyFile
+    ) {
+        // 현재 로그인한 사용자의 아이디 가져오기
         mypagePet.setId(principalDetails.getId());
-        userService.buddyregister(mypagePet);
-        return "redirect:/home";
+        // 주소설정 필요
+        user.setId(principalDetails.getId());
+        user.setUserId(principalDetails.getUsername());
+        user.setPassword(principalDetails.getPassword());
+        user.setEmail(principalDetails.getEmail());
+        user.setPhone(principalDetails.getPhone());
+
+        System.out.println(buddyFile);
+        userService.buddyregister(mypagePet,buddyFile);
+        System.out.println(user);
+        userService.address(user);
+        return "redirect:/user/main";
+    }
+    //아이디 찾기
+    @GetMapping("/findID")
+    public void findID() {
+    }
+    //비밀번호 찾기
+    @GetMapping("/findPW")
+    public void findPW() {
     }
 
     @Autowired

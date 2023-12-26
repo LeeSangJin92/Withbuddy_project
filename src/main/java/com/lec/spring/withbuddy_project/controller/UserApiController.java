@@ -28,8 +28,8 @@ public class UserApiController {
     }
 
     @GetMapping("/api/userProfile/{userId}")
-    public BuddyDto userProfile(@PathVariable Long userId, Long code) {
-        return userService.findBuddy(userId,code); // list에 나온 user의 정보를 찾아온걸 html에 전달
+    public BuddyDto userProfile(@PathVariable Long userId,Long code) {
+        return userService.findBuddyProfile(userId,code); // list에 나온 user의 정보를 찾아온걸 html에 전달
     }
 //    @GetMapping("/api/user")
 //    public List<User> userList(Long id,Long code) {
