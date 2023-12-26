@@ -114,7 +114,7 @@ public class UserController {
         userService.buddyregister(mypagePet,buddyFile);
         System.out.println(user);
         userService.address(user);
-        return "redirect:/user/main";
+        return "redirect:/home";
     }
     //아이디 찾기
     @GetMapping("/findID")
