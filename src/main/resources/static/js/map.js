@@ -144,7 +144,6 @@ function displayArea(area) {
                 if(data.name == value.addressName){
                     polygonCenter = new kakao.maps.LatLng(parseFloat(value.mapY), parseFloat(value.mapX));
                     addressId=value.addressId;
-                    console.log(addressId);
                 }
             })
             // 다각형에 mouseover 이벤트를 등록하고 이벤트가 발생하면 폴리곤의 채움색을 변경합니다
@@ -208,7 +207,7 @@ function displayArea(area) {
 
     $.each(mapData, function (i, value) {
         let position = new kakao.maps.LatLng(parseFloat(value.mapY), parseFloat(value.mapX));
-        let content = '<h5 id="Gu">' + value.addressName + '<br>' + value.usercount + '</h5>';
+        let content = '<h5 id="Gu">' + value.addressName + '<br>' + '</h5>'; //+ value.usercount +
         let marker = new kakao.maps.Marker({
             map: map,
             position: position,

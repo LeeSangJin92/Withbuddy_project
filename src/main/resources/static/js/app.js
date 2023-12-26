@@ -285,7 +285,7 @@ function showDmList(list) {
                 <td>
                     <div class="d-inline-flex">
                     <div class="col-4">
-                        <img src="/image/${buddyImage}">
+                        <img src="/image/dog10.jpg" style="width: 40px; height: 40px;">
                     </div>
                     <div class="col-8 d-flex">
                         <button type="button" data-dm-btn="${userId}" class="btn btn-white dmChat">${username}</button>
